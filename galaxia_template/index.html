@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Galaxia para ti</title>
 
-  <!-- Meta / iconos -->
+  <!-- 👇 Cambia estas dos URLs si quieres -->
   <meta name="description" content="Galaxia interactiva de frases de cariño 💘">
   <meta property="og:title" content="Galaxia para ti">
   <meta property="og:description" content="Una galaxia interactiva con palabras de cariño 💖">
@@ -26,38 +26,21 @@
     .error{position:fixed;inset:auto 10px 70px 10px;background:#260015;color:#ffd9f7;border:1px solid #ff8ae5;border-radius:10px;padding:10px;font:12px system-ui;display:none}
   </style>
 
-  <!-- Three.js (principal) -->
+  <!-- Three.js (r128) -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-  <script>
-    // Fallback si no cargó THREE desde jsDelivr
-    if (!window.THREE) {
-      var s=document.createElement('script');
-      s.src="https://unpkg.com/three@0.128.0/build/three.min.js";
-      document.head.appendChild(s);
-    }
-  </script>
-
-  <!-- OrbitControls (principal) -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-  <script>
-    // Fallback de OrbitControls si hiciera falta
-    if (!window.THREE || !THREE.OrbitControls) {
-      var s=document.createElement('script');
-      s.src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js";
-      document.head.appendChild(s);
-    }
-  </script>
 </head>
 <body>
 
 <!-- Modal de inicio -->
 <div id="startModal" style="position:fixed;inset:0;z-index:1000;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;">
   <button id="startBtn" style="background:none;border:none;outline:none;cursor:pointer;padding:0;">
+    <!-- 👇 IMAGEN DEL BOTÓN (cámbiala en CONFIG.BTN_IMAGE) -->
     <img id="startImg" src="" alt="Iniciar" style="width:270px;height:270px;display:block;">
   </button>
 </div>
 
-<!-- Música -->
+<!-- 👇 MÚSICA (cámbiala en CONFIG.AUDIO_URL) -->
 <audio id="bgMusic" src="" preload="auto"></audio>
 
 <canvas id="galaxy-canvas"></canvas>
@@ -65,18 +48,21 @@
 <canvas id="fx" style="position:fixed;inset:0;pointer-events:none;"></canvas>
 
 <script>
-/* ======== CONFIG ======== */
+/* ======== CONFIG — EDITA SOLO ESTO ======== */
 const CONFIG = {
-  AUDIO_URL: "https://www.dropbox.com/scl/fi/tr7h4uqednkeztfpa98u2/Lana-Del-Rey-Say-Yes-To-Heaven-Official-Audio.mp3?rlkey=rnindbpwsx24kclg8zwbr5aow&st=cq5t3xa8&dl=1",
-  BTN_IMAGE: "https://i.imghippo.com/files/kRka2102tac.jpg",
-  OVERLAY_IMAGE: "https://i.imghippo.com/files/UIp9296LUY.jpg",
-  RING_IMAGES: [
+  AUDIO_URL: "https://www.dropbox.com/scl/fi/tr7h4uqednkeztfpa98u2/Lana-Del-Rey-Say-Yes-To-Heaven-Official-Audio.mp3?rlkey=rnindbpwsx24kclg8zwbr5aow&st=cq5t3xa8&dl=1",                          // ← tu canción (MP3 online)
+  BTN_IMAGE: "https://i.imghippo.com/files/kRka2102tac.jpg",     // ← imagen del botón
+  OVERLAY_IMAGE: "https://i.imghippo.com/files/UIp9296LUY.jpg", // ← imagen flotante sobre el núcleo (opcional)
+  RING_IMAGES: [                                               // ← sprites/imágenes alrededor (puedes dejar menos o más)
     "https://i.imghippo.com/files/iX9460ek.jpg",
     "https://i.imghippo.com/files/ZE6755A.jpg",
     "https://i.imghippo.com/files/SeG3264jB.jpg",
     "https://i.imghippo.com/files/phQh8301qno.jpg"
   ],
-  PHRASES: ["My Sun","My Universe","I adore you","I love you","My home","My Angel","Kitty","My Princess"]
+  PHRASES: [                                                   // ← tus frases
+    "My Sun","My Universe","I adore you","I love you","My home",
+    "My Angel","Kitty","My Princess"
+  ]
 };
 /* ====== FIN CONFIG ====== */
 
@@ -94,14 +80,10 @@ document.addEventListener('DOMContentLoaded', function() {
     music.volume = 0.7;
     music.currentTime = 0;
     music.play().catch(()=>{});
-    // Espera a que THREE esté disponible en caso de fallback
-    (function waitForThree(){
-      if (window.THREE && THREE.OrbitControls) runGalaxy({ cinematic: true });
-      else setTimeout(waitForThree, 50);
-    })();
+    runGalaxy({ cinematic: true });
   });
 
-  function runGalaxy(opts={}) {
+  function runGalaxy(opts={}){
     const err = document.getElementById('err');
     function showError(msg){ err.textContent = msg; err.style.display='block'; }
 
@@ -126,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
       controls.minDistance = 10; controls.maxDistance = 220;
       controls.target.set(0,0,0);
 
-      // Cinemática
+      // Cinemática inicial
       let cinematicState = opts.cinematic ? 0 : null;
       let cinematicStart = null;
       const d1=2.2, d2=3.5, d3=2.2, dTot=d1+d2+d3;
@@ -141,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
       setCam();
       renderer.setClearColor(0x000000, 1);
 
-      // Explosiones
+      // Explosiones suaves
       const explosions = [];
       function spawnExplosion() {
         const geo = new THREE.PlaneGeometry(60, 60);
@@ -260,6 +242,15 @@ document.addEventListener('DOMContentLoaded', function() {
       const photonRing=new THREE.Mesh(new THREE.RingGeometry(coreR*1.05, coreR*1.18, 128), new THREE.MeshBasicMaterial({ color:0xEAAEFF, transparent:true, opacity:0.95, side:THREE.DoubleSide }));
       photonRing.rotation.x=-Math.PI/2; photonRing.renderOrder=0.5; scene.add(photonRing);
 
+      function makeHaloTexture(size=1024, inner=0.45){
+        const c=document.createElement('canvas'); c.width=c.height=size; const g=c.getContext('2d'); const r=size/2;
+        const grd=g.createRadialGradient(r,r,r*inner, r,r,r);
+        grd.addColorStop(0,'rgba(255,200,240,0.45)'); grd.addColorStop(0.35,'rgba(220,180,255,0.35)'); grd.addColorStop(0.7,'rgba(160,200,255,0.28)'); grd.addColorStop(1,'rgba(0,0,0,0)');
+        g.fillStyle=grd; g.fillRect(0,0,size,size); const tex=new THREE.CanvasTexture(c); tex.needsUpdate=true; return tex;
+      }
+      const haloPlane=new THREE.Mesh(new THREE.PlaneGeometry(320,320), new THREE.MeshBasicMaterial({ map:makeHaloTexture(1024,0.45), transparent:true, depthWrite:false, blending:THREE.AdditiveBlending, opacity:0.9 }));
+      haloPlane.rotation.x=-Math.PI/2; haloPlane.renderOrder=0.2; scene.add(haloPlane);
+
       // Animación
       function animate(){
         requestAnimationFrame(animate);
@@ -298,7 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       animate();
 
-      // FX corazones
+      // FX corazones (doble click/toque)
       const fx = document.getElementById('fx'); const ctx2 = fx.getContext('2d');
       function resizeFx(){
         fx.width = Math.floor(innerWidth * Math.min(2, window.devicePixelRatio||1));
@@ -340,3 +331,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
+
