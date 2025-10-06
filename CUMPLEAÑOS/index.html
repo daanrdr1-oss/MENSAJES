@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С днём рождения!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+    <div class="hearts-container" id="hearts-container"></div>
+    <div class="floating-hearts" id="floating-hearts"></div>
+    <div class="notification" id="notification">👉 Нажми на конверт, чтобы открыть письмо</div>
+    
+    <div class="container" id="main-container">
+        <div class="header">
+            <h1><span class="special-name floating">С днём рождения! 🎂</span></h1>
+            <p style="color: white; text-shadow: 0 0 10px rgba(255,0,119,0.5);">👉 Нажми на конверт, чтобы получить свой сюрприз.</p>
+        </div>
+        
+        <div class="envelope-wrapper" id="envelope-wrapper">
+            <div class="envelope" id="envelope">
+                <div class="envelope-front">
+                    <div class="envelope-flap"></div>
+                    <i class="fas fa-heart" style="color: white; font-size: 3rem; animation: pulse 1.5s infinite;"></i>
+                </div>
+                <div class="envelope-back">
+                    <div class="letter">
+                        <div class="paper-texture"></div>
+                        <div class="letter-content">
+                            <h2>🎂🎂</h2>
+                            <div class="signature"></div>
+                        </div>
+                    </div>
+                    <i class="fas fa-heart" style="color: #ff4081; font-size: 2.5rem; animation: pulse 1.5s infinite; position: absolute; bottom: 10px; right: 10px;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="fullscreen-letter" id="fullscreen-letter">
+        <div class="close-btn" id="close-btn">×</div>
+        <div class="paper-texture"></div>
+        <div class="fullscreen-letter-content">
+            <h2>Уважаемая Ирина,</h2>
+            <p>Надеюсь, что у Вас всё хорошо. Хочу выразить Вам искреннюю</p>
+            <p>благодарность за Вашу доброту и за то тёплое отношение,</p>
+            <p>с которым Вы всегда меня принимаете.</p>
+            <p>Также хочу поблагодарить Вас за то, что Вы дали мне возможность</p>
+            <p>продолжать любить Вашу дочь — замечательного и очень дорогого для меня человека.</p>
+            <p>От всей души желаю Вам прекрасного настроения и надеюсь,</p>
+            <p>что Вы отлично проведёте свой день рождения.</p>
+            <p>С уважением и теплом,</p>
+            <h2>Даан Родригес</h2>
+            <div class="signature">С днём рождения! 🎂</div>
+        </div>
+    </div>
+
+    <!-- 🎵 Música: autoplay + loop. NO se controla desde el sobre -->
+    <audio 
+        id="bg-music" 
+        src="https://www.dropbox.com/scl/fi/szvnyw8maoy6nlny36cm2/Oh-Pretty-Woman-Roy-Orbison.mp3?rlkey=ildh5s16titblpgvj2i9y1qwl&st=wsp192tx&dl=1"
+        preload="auto"
+        autoplay
+        loop>
+    </audio>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>
+
