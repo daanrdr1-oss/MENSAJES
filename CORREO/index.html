@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💖 A Special Letter For You 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ffd6e7, #ffefef);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+      color: #333;
+      transition: background-color 0.5s ease;
+      overflow-x: hidden;
+      padding: 20px;
+    }
+    
+    h2 {
+      margin-bottom: 20px;
+      color: #d14d72;
+      font-weight: 600;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    .screen {
+      display: none;
+      animation: fadeIn 0.8s ease;
+      width: 90%;
+      max-width: 600px;
+    }
+    
+    .active {
+      display: block;
+    }
+    
+    .main-img {
+      width: 280px;
+      height: auto;
+      margin-bottom: 15px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      border: none;
+      box-shadow: none;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .main-img:hover {
+      transform: scale(1.05);
+    }
+    
+    .card {
+      background: repeating-linear-gradient(
+        white,
+        white 28px,
+        #f0f0f0 29px
+      );
+      border-radius: 8px;
+      padding: 40px 30px;
+      border: 2px solid #e5e5e5;
+      width: 95%;
+      max-width: 900px;
+      text-align: left;
+      margin: 0 auto;
+      box-sizing: border-box;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease;
+      position: relative;
+    }
+    
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 40px;
+      right: 40px;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #d14d72, transparent);
+    }
+    
+    .card h3 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.2em;
+      text-align: left;
+      margin-bottom: 20px;
+      margin-left: 10px;
+      color: #d14d72;
+    }
+    
+    .card p {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4em;
+      line-height: 1.6;
+      text-align: justify;
+      color: #444;
+      margin: 15px 0;
+      text-indent: 1em;
+    }
+    
+    .return-btn {
+      margin-top: 25px;
+      padding: 12px 25px;
+      font-size: 1em;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: 0.3s;
+      background-color: #d14d72;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 3px 10px rgba(209, 77, 114, 0.3);
+    }
+    
+    .return-btn:hover {
+      background-color: #b83b5e;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(209, 77, 114, 0.4);
+    }
+    
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      color: #ff6b95;
+      opacity: 0;
+      z-index: -1;
+    }
+    
+    .progress {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 10px;
+    }
+    
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #ccc;
+      transition: background-color 0.3s;
+    }
+    
+    .dot.active {
+      background-color: #d14d72;
+    }
+    
+    .music-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      border-radius: 50px;
+      padding: 10px 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 100;
+      transition: transform 0.3s;
+    }
+    
+    .music-player:hover {
+      transform: translateY(-5px);
+    }
+    
+    .music-btn {
+      background: #d14d72;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.3s;
+    }
+    
+    .music-btn:hover {
+      background: #b83b5e;
+      transform: scale(1.1);
+    }
+    
+    .song-title {
+      font-size: 0.9em;
+      color: #d14d72;
+      font-weight: 600;
+    }
+    
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .volume-slider {
+      width: 80px;
+    }
+    
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @media (max-width: 600px) {
+      .card {
+        padding: 30px 20px;
+      }
+      
+      .card h3 {
+        font-size: 1.8em;
+      }
+      
+      .card p {
+        font-size: 1.2em;
+      }
+      
+      .main-img {
+        width: 220px;
+      }
+      
+      .music-player {
+        bottom: 10px;
+        right: 10px;
+        padding: 8px 15px;
+        flex-direction: column;
+        border-radius: 25px;
+      }
+      
+      .song-title {
+        font-size: 0.8em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Music Player -->
+  <div class="music-player">
+    <div class="song-title">Perfect - Ed Sheeran</div>
+    <button class="music-btn" id="playBtn">▶️</button>
+    <button class="music-btn" id="pauseBtn">⏸️</button>
+    <button class="music-btn" id="stopBtn">⏹️</button>
+    <div class="volume-control">
+      <span>🔊</span>
+      <input type="range" min="0" max="1" step="0.1" value="0.7" class="volume-slider" id="volumeSlider">
+    </div>
+  </div>
+
+  <!-- Letter Screens -->
+  <div class="screen active" id="screen1">
+    <h2>Hello, you've got a special mail 💌</h2>
+    <img src="https://i.ibb.co/gb4mBZc7/358001fbe2311afe62fe5a378da4824d.jpg" alt="Mail" class="main-img floating" onclick="nextScreen(2)">
+    <p style="margin-top: 10px; color: #666;">(Click on the image to continue)</p>
+    <div class="progress">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  
+  <div class="screen" id="screen2">
+    <h2>A little letter for you ✨</h2>
+    <img src="https://i.ibb.co/BKHjPXfK/closed-envelope-letter-with-heart-illustration-with-outline-for-greeting-cards-posters-prints-on-clo.jpg" alt="Letter" class="main-img floating" onclick="nextScreen(3)">
+    <div class="progress">
+      <div class="dot"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  
+  <div class="screen" id="screen3">
+    <h2>Open it! 📨</h2>
+    <img src="https://i.ibb.co/7t3fgtkH/romantic-open-envelope-a-letter-for-a-declaration-of-love-illustration-in-cartoon-style-on-a-white-b.jpg" alt="Envelope" class="main-img floating" onclick="nextScreen(4)">
+    <div class="progress">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  
+  <div class="screen" id="screen4">
+    <h2>What will it say? 🤔</h2>
+    <img src="https://i.ibb.co/6JH4p2QR/766741acd681f542c7564356da258040.jpg" alt="Ready letter" class="main-img floating" onclick="nextScreen(5)">
+    <div class="progress">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  
+  <div class="screen" id="screen5">
+    <div class="card">
+      <h3>My Love,</h3>
+      <p>In this distance that separates us, I've discovered that love doesn't understand kilometers or maps. Every day that passes without you near, my heart searches for you in every corner, in every memory, in every whisper of the wind that might carry my thoughts to you.</p>
+      <p>I wake up thinking of you and fall asleep dreaming of the moment I'll feel your embrace again. The days without your laughter nearby seem longer, the nights without your voice more silent. But in the midst of this absence, there's one certainty that sustains me: our love is stronger than any distance.</p>
+      <p>I treasure every message from you like a precious gift, every call like a blessing from heaven. Those moments when we can see each other, even if just through a screen, are what light up my week and give me strength to keep going.</p>
+      <p>I miss you in the small details: in the music I listen to, in the movies I watch, in holding your hand. But more than missing you, I love you. I love you with a strength that surprises me every day.</p>
+      <p>This distance is temporary, I know. Meanwhile, I carry you with me in every heartbeat, in every breath, in every step I take knowing that each one brings me closer to you.</p>
+      <p>You are my home, no matter where I am. You are my peace, my joy, my reason to believe that true love can conquer everything.</p>
+      <p>I love you more than yesterday, less than tomorrow,</p>
+      <p>Daan Rodriguez💌</p>
+    </div>
+    <div style="text-align: center;">
+      <button class="return-btn" onclick="nextScreen(1)">🔙 Back to start</button>
+    </div>
+    <div class="progress">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot active"></div>
+    </div>
+  </div>
+  
+  <!-- Audio for music -->
+  <audio id="backgroundMusic" loop>
+    <source src="https://www.dropbox.com/scl/fi/ciqif0uussk3qwrmsvn39/Ed-Sheeran-Perfect.mp3?rlkey=o5dmzoa84tv4b4z7opa4o8bn8&st=7jgs8vus&dl=1" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  
+  <script>
+    // Music elements
+    const audio = document.getElementById('backgroundMusic');
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    
+    // Set initial volume
+    audio.volume = volumeSlider.value;
+    
+    // Music controls
+    playBtn.addEventListener('click', () => {
+      audio.play();
+    });
+    
+    pauseBtn.addEventListener('click', () => {
+      audio.pause();
+    });
+    
+    stopBtn.addEventListener('click', () => {
+      audio.pause();
+      audio.currentTime = 0;
+    });
+    
+    // Volume control
+    volumeSlider.addEventListener('input', () => {
+      audio.volume = volumeSlider.value;
+    });
+    
+    // Function to change screens
+    function nextScreen(num) {
+      const current = document.querySelector(".screen.active");
+      if (current) current.classList.remove("active");
+      document.getElementById("screen" + num).classList.add("active");
+      
+      // Update progress indicators
+      const dots = document.querySelectorAll('.dot');
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[num-1].classList.add('active');
+      
+      // Create floating hearts on the last screen
+      if (num === 5) {
+        createHearts();
+        // Play music automatically when reaching the letter
+        setTimeout(() => {
+          audio.play().catch(e => {
+            console.log("Autoplay was blocked: " + e);
+            // Show message if autoplay fails
+            const musicPlayer = document.querySelector('.music-player');
+            const message = document.createElement('div');
+            message.innerHTML = '🎵 Click play for music';
+            message.style.color = '#d14d72';
+            message.style.fontSize = '0.8em';
+            message.style.marginTop = '5px';
+            musicPlayer.appendChild(message);
+          });
+        }, 1000);
+      }
+    }
+    
+    function createHearts() {
+      const heartsContainer = document.body;
+      const heartCount = 15;
+      
+      for (let i = 0; i < heartCount; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.innerHTML = '❤️';
+          heart.classList.add('heart');
+          
+          // Random position
+          const leftPos = Math.random() * 100;
+          heart.style.left = `${leftPos}vw`;
+          heart.style.top = `${Math.random() * 100}vh`;
+          
+          // Animation
+          heart.style.animation = `float ${3 + Math.random() * 4}s ease-in-out infinite`;
+          heart.style.opacity = '0.7';
+          heart.style.fontSize = `${20 + Math.random() * 20}px`;
+          
+          heartsContainer.appendChild(heart);
+          
+          // Remove after animation
+          setTimeout(() => {
+            heart.remove();
+          }, 7000);
+        }, i * 300);
+      }
+    }
+    
+    // Start hearts on the first screen too
+    document.addEventListener('DOMContentLoaded', function() {
+      createHearts();
+    });
+  </script>
+</body>
+</html>
