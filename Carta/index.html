@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💖 Letter 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      color: #333;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .screen {
+      display: none;
+      animation: fadeIn 0.8s ease;
+      width: 90%;
+      max-width: 600px;
+    }
+    .active {
+      display: block;
+    }
+    .main-img {
+      width: 280px;
+      margin-bottom: 15px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .main-img:hover {
+      transform: scale(1.05);
+    }
+    .btn {
+      margin-top: 15px;
+      padding: 10px 25px;
+      font-size: 1em;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #ff4f81;
+      color: white;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background-color: #ff2a66;
+    }
+    .card {
+      background: repeating-linear-gradient(
+        white,
+        white 28px,
+        #e3e3e3 29px
+      );
+      padding: 40px 60px;
+      border: 2px solid #e5e5e5;
+      max-width: 900px;
+      text-align: left;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    .card p {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.3em;
+      line-height: 1.6;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.95);}
+      to {opacity: 1; transform: scale(1);}
+    }
+  </style>
+</head>
+<body>
+  <div class="screen active" id="screen1">
+    <h2>My princess, a small gift for you.</h2>
+    <img src="https://url-shortener.me/4G26" class="main-img" onclick="nextScreen(2)">
+  </div>
+  <div class="screen" id="screen2">
+    <h2>A special letter of good luck.</h2>
+    <img src="https://url-shortener.me/4G28" class="main-img">
+    <br>
+    <button class="btn" onclick="nextScreen(3)">💌 Read Letter</button>
+  </div>
+  <div class="screen" id="screen3">
+    <div class="card">
+      <h3>Dear Kitty,</h3>
+      <p>
+        Today, I just want to give you all my luck. I'm sending it to you wrapped in a quiet thought, carried on a deep breath, and tied with all my faith in you.
+      </p>
+      <p>
+        May luck sit softly on your shoulder, whisper the right words to your memory, and guide your pen across the page. May it light up the path to every answer and be the gentle, fortunate breeze at your back.
+      </p>
+      <p>
+        But more than luck, I send you my unwavering love. Remember it's there, a steady, warm constant, no matter how the day unfolds. You are my always, and I am your biggest believer.
+      </p>
+     <p>
+        Go shine, my lucky charm. I'll be right here, cheering for you with all my heart.
+     </p>
+      <p>All my love and all my luck,,<br>Daan Rodriguez (Your baby) 💌</p>
+    </div>
+    <br>
+    <button class="btn" onclick="nextScreen(1)">🔙 Return</button>
+  </div>
+  <script>
+    function nextScreen(num) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen' + num).classList.add('active');
+    }
+  </script>
+</body>
+</html>
